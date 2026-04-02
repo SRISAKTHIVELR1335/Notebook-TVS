@@ -1,0 +1,442 @@
+Test Related:
+
+in the above test pages we want the grid to be in a clickable form like all these Diagnostics, Vehicle Health Report, ECU(grids), Parameters, suppose if we click the vehicle health report here all the health related pages pages is in form of tabs. We want the back button in each test page that takes to the previous test page. All the backend related routes and the entire diagnostics folder concept we need to change everything.
+
+add permissions logic to the test sequences .
+
+In the ECU parameter page if any kind of Write parameters are there we need to show the pop up field in that we need to enter the characters, vin -17 charc, mac -12 charc(0-9, A-F), as per write sequence selection in the Write parameter field we need to show the entry pop up field with the test sequence name.
+
+
+First we should check and load whether we have the folders for Diagnostics, Vehicle Health Report, if the diagnostics folder is available then we need to check and load the available ECU's for that vehicle model and then we need to load the available parameters (Live Parameters, Read DTC, Write data by identifier, Routine Control, ECU Flashing, Input/Output Control, etc..) for that selected ECU and then for the selected parameter we need to load and test the available test sequence programs. And for the vehicle health report, same first we need to check and load the test sequence folder if available for health summary then we can test it and then same for Input output control tab page we need to check and load the test sequence folder if available and then we need to run it and for sam goes for physical evaluation. We need to write this as a python program like how we have done in for loader.py, runner.py, service.py and the common test page ui concept should match this.
+
+in the above runner.py we also need to include the function to find out the error, if occurs. After retrying multiple times then also if it shows error we need to show them in the test ui where we run the tests. Our program will run correctly, if not it will return the error in 7F service_id negative response, we have the list for the negative response -
+
+Hex Mnemonic Description
+10 GR General reject
+11 SNS Service not supported
+12 SFNS Sub-Function not supported
+13 IMLOIF Incorrect message length or invalid format
+14 RTL Response too long
+21 BRR Busy repeat request
+22 CNC Conditions not correct
+24 RSE Request sequence error
+25 NRFSC No response from sub-net component
+26 FPEORA Failure prevents execution of requested action
+31 ROOR Request out of range
+33 SAD Security access denied
+35 IK Invalid key
+36 ENOA Exceeded number of attempts
+37 RTDNE Required time delay not expired
+38-4F RBEDLSD Reserved by Extended Data Link Security Document
+70 UDNA Upload/Download not accepted
+71 TDS Transfer data suspended
+72 GPF General programming failure
+73 WBSC Wrong Block Sequence Counter
+78 RCRRP Request correctly received, but response is pending
+7E SFNSIAS Sub-Function not supported in active session
+7F SNSIAS Service not supported in active session
+
+
+I want you to give the sample tests.json from your understanding of how the tests.json looks.
+
+The tests.json is not proper, we need to add all these in a correct way for different parameter test sequences, vehicle model name, Section, ECU, Parameter, label, module_name, function_name, description, button_name, is_active, version, Parameter_Page_Type, Requires_Input, Input:[], Default Value Required:, Execution(Mode, Supports_Run_All, Timeout_Sec) and i have one doubt, do we need to add the output in the tests.json.
+
+
+Now we need to rewrite the correct service.py fully, by replacing the existing the concept and adding the new build args dynamically from the input []
+
+Actually in the above service.py we only had the entry field for mac address but now we have the separate concept in which that has the Write Data Identifier Parameter in that it has the entry field for all the python programs not only mac address, we have the vehicle identification number(vin), EOL data, Pitch Angle Data, Lean Angle Data, Service Date, Service Distance, Time and Date, Odometer Offset, Odometer Value, Test Stamp etc.... All the entry field pop up box should carry the SET DEFAULT VALUE button, if we click that it should automatically get the data that we already stored in tests.json file and For Date, Time entry fields below the entry field line we should see the order like (DDMMYYYY, hhmmDDMMYYYY) and for other grids we should see like the Range from (.. -  ..)  these values are also be defined in the tests.json file.
+
+we should also mention the length with which type it is, whether it is a character or numbers or hexadecimal or float or string or datetime or boolean etc.. in the tests.json
+
+we also need to mention the description, version, is_active, button_name for each python programs in the tests.json
+
+
+
+Okay now I want you to  develop all the test page Ui templates correctly in the tests.html fully that supports all the type of parameter test sequences. We have the old existing tests.html we need to modify everything in this and create the new correct tests.html fully. Our new tests.html should contain everything from section selection page, ECU selection page, Parameter Selection, Different parameter test sequence pages for Live Parameter(stream, buttons - Run All, Pause/Resume, Cancel, Test Selected), Diagnostic Trouble Codes(buttons + Clear DTC (delete)), Input Output Control(toggle, popup for response with the close button, success - green , failure - red ), IUPR tests,(stream, buttons - Run All, Pause/Resume, Cancel, Test Selected) Write DID(pop up - request, success, failure), ECU Flashing(pop up - Flashing Started(Light Purple), Flashing Completed(Success- Green, Failure - Red)), Routine Control(toggle, popup for response with the close button, success - green , failure - red ), etc.. and then Vehicle Health Summary(stream, buttons)- Input Output Control - Physical Evaluation tabs. And also we want the existing live logs preview with the clear logs and save/download logs button in all these test sequence pages. The above tests.html is very very basic and does not match our requirement. Write down the correct tests.html phase by phase which completely within all our requirement.
+
+Correctly write the Parameter Tests Sequence Page in the tests.html, Live Parameter, Diagnostics Trouble Codes, Write Data Identifier, IUPR tests, Input Output Control, ECU Flashing, Routine Control, Vehicle Health Report Tabs - Health Summary, IO Control, Physical Evaluation.
+
+
+Read and validate this below tests.html, and identify whether it supports all our existing loader.py, runner.py, service.py, tests.json, tests.schema.json etc.. and identify the possible issue in this tests.html, and also recommend the changes in this tests.html so it looks exactly like our requirement.
+
+we need to rewrite down the correct tests.html fully that supports all the loader, runner, service programs, test.json, tests.schema.json
+
+
+
+If we click the Live Parameter (parameter), the test sequences open in this format. All the tests are in a separate rounded horizontal grid with their test descriptions and with the button name that is mentioned in the tests.json. If we click that button in that grid, it should start streaming the data output in that grid itself, that test should run, and we also have the buttons like Run All, Pause/Resume, and Cancel, each has its own function. Our horizontal test grid should be like 1. Test Name - below description, 2. Action(Button Name), Output(Actual Result), Status(Streaming, Failed, Success). Same kind of method for the IUPR (In-Use Performance Ratio) tests (parameter), and also for the Vehicle Health tabs - Health Summary, same method.
+
+If we click the Write Data Identifier (parameter), the test sequences should open in the roundedhorizontal grid with their test descriptions, and in this parameter test sequence, there are no actions(button names), output, only Tests name with its description will be there; it's a clickable horizontal Ui grid, if we click that test grid then the pop up ui will open in that the entry field with the test name will be there with the hint description and set default value button if we click that then whatever the default value that is set for that test will appear there and there is a submit and close button, if we click the submit button then the related test program will run with this entry field as an input (request page is in light orange and if the test writes are completed successfully - green, and if the test writes failed - red as the status in the pop ui) and if we click the close button it will take us back to the test grid page.
+
+If we click the Input Output Control (parameter) or the Routine Control (parameter), the test sequence should open in the rounded horizontal grid with their test descriptions and the toggle button for each test grid. If we click the toggle button in the test grid the respective tests will run with their test sequence program and after clicking the toggle button the pop up will open which shows the status of request page in the light orange colour and if the test completed successfully - green colour, and if the test failed - red colour with the close button in it which will take back to the previous test grid page before popup.
+
+If we click the Diagnostics Trouble Codes(DTC parameter), the test sequences should open in the rounded horizontal grid with their test description, output and the status. And the error codes are displayed in the output with the status passed/failed. We also have the Clear DTC button, which will run the Clear DTC test sequence program.
+
+If we click the ECU Flashing (parameter), the test sequence should open in the rounded horizontal grid with its description. It's a clickable horizontal Ui grid, if we click that the related program will run with the pop up ui shows Flashing started page with the progress bar(0-100) in the light purple colour, if the ECU flashed successfully with the 100% progress bar then it shows the green colour and if the ECU failed to Flash then it shows in the red colour.
+
+
+Actually, now after validating this tests.json concept with tests.schema.json, we need to this tests.html into the tests-related tables that we have in the database. Example for each parameter, if available for the selected ECU, there will be a tests.json file that contains all the test sequences details available for that parameter will be present. Instead of using the tests.json directly, we need to store this data in the tests-related tables, and then we need to call from those tables. Also in the tests.schema.json we need to add the LSL and USL for the output in the ui grid.
+
+We need to alter the tests table based on the tests.schema.json and if the vehicle model has the Diagnostics, ECU, Parameter Folders then inside the each and every parameter folder they have the tests.json folder where all the test details will be stored.
+
+
+Actually we should not show the lsl and usl in the test page instead what we want is is the actual output that is within the lsl and usl limits, and the output should show in the green colour and if it is not within the limits then it should show in red colour.
+
+In the tests.json we need to include the output limits(lsl and usl and also units) this is not mandatory for all the parameters and this output test limits are stored in the test_output_limits table. Also mention the changes on the loader.py, runner.py, service.py and tests.schema.json.
+
+I want you to write down the sample tests.json file for all the parameters. Some parameter test sequence requires input and Some parameter test sequences requires flashing and some parameter test sequence requires output limits and the units and all these have the parameter_page_type.
+
+
+
+
+Now we need to change this concept in the Admin pages, like we have to modify this in the user management. In that we want the same vehicle permission logic means vehicle selection page is same in the vehicle permissions tab but we have to modify the test permissions for the selected vehicles, in the test permission tab it should be like Diagnostics checkbox, Vehicle Health Report checkbox. If we click the Diagnostics Checkbox then it will open the available ECU's with checkbox for that selected vehicle model and if we click any available ECU checkbox then it open the parameter checkbox inside that ECU that is available for that vehicle model, and if we click any of the available parameter checkbox then it will open the test sequences with the checkbox available for that parameter. Then we need to click the test sequence checkbox to give the permission for that selected vehicle model and for that selected user.
+
+
+Modify this also if we click the vehicle model in the dashboard page it will check whether the vehicle model has Diagnostic Folder/Vehicle Health Report Folder or not. If it is not there then it should show only the selected model vehicle image.
+
+
+admin/tests.py and admins/tests.html is totally wrong, means we don't have the test_code_locations table, we need to redesign the tests.py and tests.html based on this new requirement.
+
+
+Now we need to change the tests.py and tests.html in the admin page, here we want the same but we need to add the search input entry field that is based on tests, sections filter, ECU filter, Parameter Filter, Status Filter, after that we can able to see the test sequences available for that selected section, ECU, Parameter that is imported from the tables. And we also want the same Sync DB - Json and Sync json to DB concept but it should be in a updated new format. And the Edit option in the Tests Management should also be updated to our new concept. like we don't need the requires mac column instead we have the requires input, requires output, requires flashing. And if we select requires input we need to set for that if we click the requires input checkbox it should open the pop up window that has the entry filed like we have mentioned in the tests.schema.json same goes for requires output and requires flashing. And also we can able to see the permitted users for that users for that test sequence if we click the edit button. Add test also requires the same logic requires input, requires output, requires flashing. These require input checkbox should only enable for the Write Data By Identifier Parameter, requires output checkbox should only enable if we are selecting the parameter Live Parameter, IUPR tests and also for Vehicle Health Summary, and this requires flashing parameter checkbox should only enable for ECU Flashing Parameter.
+
+Now we need to add one more main part, like when the pop up UI opens with the entry field can we need to add the scan button which scans the input, it is in the form QR or Barcode by using the openCV method which reads the input using their own camera and reads the input and that input is automatically entered in the entry field box. Example the parameter Write Data Identifier will open the pop up UI and also in auto-run VIN if it's manual we open the pop up UI in these we need to add the scan button.
+
+
+New Requirements:
+
+Now we have the major issue, that only these tables get updated (means value added to the table - tests,test_definition_version, test_output_limits, test_inputs ). Like these tables are not used or values are added in the table, vehicle_sections, vehicle_section_map, vehicle_health_map, vehicle_health_sections, vehicle_health_results, vehicle_health_folders, vehicle_health_actions, vehicle_diagnostic_actions, vehicle_diagnostic_sections, diagnostic_actions, diagnostic_sections, diagnostic_folders.
+
+
+Ok now we have the three types of json file. One is regarding the section_tests.json in that all the (section related folder names and the what are all the ECU's inside that selected vehicle model section should be listed if it is diagnostics and if it vehicle health report then it should be different). and the second json file is ecu_tests.json contains the ECU information, in that it has the ECU name, Description, Protocol, Emission, active and the third json is the tests.json in that whatever it has currently it is good.
+
+Execution Modes:
+
+Stream(only for Live Parameters, Vehicle Health, Summary)
+IUPR is exception, means IUPR has two different pages like IUPR Primary, IUPR Secondary with the two execution modes, IUPR Primary is stream and IUPR Secondary is Write(Single)
+Single(only for write Data By Identifier, Input Output Control, Routine Control, Diagnostics Trouble Codes, Input Output Health Control, Physical Health Evaluation )
+Flash(only for ECU Flashing)
+
+Test Pages Concept:
+
+Currently we have Section Page, ECU Page, Parameter Page, Test Sequence Page, Health Report Page(with tabs). In all these pages except Test Sequence Page, selected vehicle image with the vehicle model name, description, category should be there in the rounded horizontal box and all the grids in test pages including the test sequence page in the separate rounded horizontal box. And In all the parameter and health report test sequence pages we will have the live log preview.
+
+Section Page - Diagnostic / Vehicle Health Report - Like the vehicle model grid, how it contains the vehicle model name, description, vin pattern, vehicle model image. This section page should contain the details of Diagnostic / Vehicle Health Report mentioned in the test_sections.json. Also when we click the diagnostic section page it will automatically run these programs like ECU activeness test, vin read program, battery voltage program(stream).
+
+ECU Page - Different ECU's with it's ECU information like ECU name, Description, Protocol, Emission mentioned in the test_ecu.json. For each ECU grid should look like rounded horizontal grid with all it's information separately and all these ECU grids are in one rounded horizontal grid.
+
+Parameter Page - Different parameter for the selected ECU. It also should look like the vehicle model grid, with it's parameter information like parameter name in the  center of the grid.
+And these parameter details are mentioned in the test_ecu.json.
+
+Test Sequence Page - For Different Parameters we have the different Test Sequence Pages, here we don't need the top vehicle image with it's name, category, description.
+
+Like if we click the Live Parameter(parameter), all the test sequences available for that parameter should open in the separate rounded horizontal grid with it's test sequence name, description, button name, actual result, Status. For each test sequence, our horizontal grid should be like this Test Sequence Name - below description, Action(button_name), Output(actual_result), Status(idle(grey), Streaming(orange) - Success(green), Failed(red)). If we click that button name in the test sequence, it should start streaming the data with the output in that grid test sequence itself with the status - streaming, after the data starts to stream for that test sequence we want the cancel button it should stop the test sequence data streaming and the status should be success. We also want the buttons like Run All, Pause/Resume and Cancel at the top of all the test sequence grid. Here this is the cancel button to stop the streaming data. We want the same kind of test page concept for Vehicle Health Summary Tab, Physical Health Evaluation tab and also for IUPR tests(parameter) in that for IUPR Primary. And we have the output limits like LSL and USL, if the streaming output is not within the limits then the actual result should show in the red colour and it is within the limits then it should show in the green colour with the units. All these Test Sequence Name, Description, Button Name, LSL/USL limits, Supports Run ALL, Unit mentioned in the tests.json file. Also in the test sequence page only that parameter test sequences are listed not the other parameter test sequences.
+
+
+And if we click the IUPR tests(parameter), here we have the two test sequence execution concept for one parameter. One is IUPR primary for that as I mentioned earlier it is like Live Parameter and another concept is IUPR Secondary, in the IUPR primary page we have the Next button it will take us to the IUPR Secondary page. In this Page, we have the same horizontal grid for each test sequence separately and it has the in-built entry field means in that rounded horizontal grid we have the test sequence name below it's description, Entry Field - We will have the hint description below the Entry Field, Button_Name, Output(Actual Result), Status. We also have the Run All, Pause/Resume, Cancel buttons like the IUPR Primary. All these details are in tests.json.
+
+
+And if we click the Write Data Identifier (parameter), here the test sequence related to that parameter has the different execution concept. If we click the Write DID parameter it will open the tests sequence page, but here it should open like a vehicle model grid with its name and description, we don't want the action button name, output. Instead of the button name here it is clickable and if we click that, then the Ui will pop up for that test sequence, in that entry field with the test sequence name will be there below that we have the hint description and the set default value button for that test sequence. If we click that set default value button whatever we it there in the tests.json it will appear there or we can able to enter the input value and then we can able to run that by clicking the submit button, there is also a close button in that pop up Ui. After clicking that submit button it run the test sequence related to that with the entry field as an input, then the pop up Ui will show the status, input sending to the test sequence request page - light orange, after the test writes the entered input or default - completed successfully(green colour), and if the test write failed (red colour). After getting the status we can able to close the pop ui page with the help of close button.
+
+
+
+And if we click the Input Output Control (parameter), here the test sequence related to that parameter should open in the rounded horizontal grid with their test sequence name with it's descriptions. Instead of the Button Name, Output and Status, we have the toggle button(Like a On/Off) for each test sequence grid. If we click the toggle in that test sequence grid the respective test sequence program will run and after clicking the toggle button the pop up Ui will open which shows the status - request page in the light orange colour and if the test completed successfully - green colour, and if the test failed - red colour in the pop up Ui and after that we have the close button, which will take back to the test sequecne page. And all the test related details are taken from tests.json.
+
+
+And if we click the Routine Control(parameter), it should be same as the Input Output Control(Parameter).
+
+
+And if we click the Diagnostics Trouble Codes(parameter), the test sequences related to that parameter should open in the rounded horizontal grid(like the vehicle model grid) with their test sequence name,  test description, output and the status. And all the error codes are displayed in the output with the status passed/failed. We also have the Clear DTC button at the top of this test sequence, if we click that it will run the Clear DTC test sequence program. All the test related details are referred from tests.json.
+
+
+And if we click the ECU Flashing (parameter), the test sequence related to that parameter should open in the rounded horizontal grid with its description. It's a clickable horizontal Ui grid, if we click that the related program will run with the pop up Ui shows Flashing started page with the progress bar(0-100) in the light purple colour, if the ECU flashed successfully with the 100% progress bar then it shows the green colour and if the ECU failed to Flash then it shows in the red colour. All the test related details are referred from tests.json.
+
+
+Similar to the Input Output Parameter, the vehicle Health IO control tab also the same and we also need to include the dealer details tab in the vehicle Health Report.
+
+
+First, we need to introduce the new json concepts with the schema validation and store the values in the correct tables respectively, We currently have the tables like,
+
+tests,
+test_inputs,
+test_output_limits,
+test_execution_config,
+test_flashing_config,
+test_definition_version,
+user_test_permissions,
+vehicle_sections,
+vehicle_section_map,
+vehicle_diagnostic_sections,
+vehicle_diagnostic_actions,
+diagnostic_actions,
+diagnostic_section,
+diagnostic_folders,
+vehicle_health_sections,
+vehicle_health_actions,
+vehicle_health_folders,
+vehicle_health_map.
+
+Also give the schema validation json for all the new json files like we currently have the schema validation file for tests.schema.json like that.
+
+
+write down the fully corrected loader.py with all the corrections including all these old functions as well as new functions ,
+
+normalize,
+safe_name,
+_file_fingerprint,
+get_vehicle_root,
+discover_vehicle_sections,
+discover_ecus,
+discover_parameters,
+discover_health_tab
+_validate_against_schema,
+_load_cached,
+_load_tests_json,
+load_test_function,
+_import_module,
+extract_ui_behavior,
+extract_input_schema,
+extract_execution_config,
+load_parameter_tests,
+load_health_tests,
+load_test_function,
+sync_tests_from_filesystem,
+validate_all_tests
+ 
+
+the above loader.py uses how many tables to store the data and what are they.
+
+
+
+First write down the correct schema.json (section.schema.json, ecu.schema.json, tests.schems.json) for all three json files, also give the sample file for all the schema with all the parameters correctly. Then give the SQL query to create all the tables listed below,
+tests,
+test_inputs,
+test_output_limits,
+test_execution_config,
+test_flashing_config,
+test_definition_version,
+user_test_permissions,
+vehicle_sections,
+vehicle_section_map,
+vehicle_diagnostic_sections,
+vehicle_diagnostic_actions,
+diagnostic_actions,
+diagnostic_section,
+diagnostic_folders,
+vehicle_health_sections,
+vehicle_health_actions,
+vehicle_health_folders,
+vehicle_health_map
+these table should support all the schemas mentioned.
+
+
+Still, we have some issues like, the
+
+
+ok now we need to write down the auto-run program, like if we click the Diagnostic it should automatically run that programs and show the streaming result below to the vehicle image grid, these values should be displayable for Section Selection Page, ECU selection page,  Parameter Selection Page and if the VIN reading program fails to give the result, then the pop up should open where we need to enter the valid VIN and click submit. Now that the entered VIN should display in the Section Selection Page, ECU Selection Page and Parameter Selection page. This VIN read is the single read program, but for the other two remaining programs, the concept is streaming, like the result should be live. The ECU active check program should only be visible on the ECU selection page; there is a green/red dot inside all the ECUs separately at the right top corner that defines whether the ECU is active or not. If we get the continuous streaming data, then the dot should show in green colour, and if we do not, then it should show in red colour. And the other program is like battery voltage streaming, which should be visible to the Section Selection Page, ECU selection page and the Parameter selection page, like the VIN. And this battery Voltage program should have the lsl and usl that are defined and stored in the JSON and later into the respective table, and if the streaming value is within the limits, then the actual live data should show in the green colour, and if it is not, then it should show in the red colour, but the streaming should not stop. And this battery voltage is also close to where we display the VIN. As I said earlier it should be like this, VIN(light grey):actual result(auto run result) or pop up entered input VIN(green colour), below this we should display the Battery Voltage(grey): and the streaming result based on the LSL and USL should be displayed based on the limits(green/red).
+
+
+
+And also in all the parameter pages, in the live log, we should get the result, even if they are opening in the pop up Ui. And also, if we click the validate button in the Write Data Identifier, whatever the length and data type we have set, our input should be based on that, and also, it should show an error if our input is wrong. Now, in the tests.html, what we have set the limits like lsl and usl, our actual output should show in the green colour if our output is within the limits, and if the actual output exceeds or precedes the limits, then it should not show the error; instead, it should show in the red colour.
+
+Currently, what happens is that auto_stream_values and ecu_active_status table values are not saving and showing and even though we get the correct VIN in the auto run program, it is opening the pop-up UI for the manual entry, and even if we enter the VIN is not showing in the page we specified. The same goes for the Battery Voltage and ECU active check auto-run Program we are saving the value in the auto_run_results and auto_run_sessions table but it is not showing. And also, if we open the pop-up UI, there is a scan  button if we press that, it should adapt like for phone and tablet, it should open the back camera, and also refer this html,
+
+And also we have the icons mentioned in the json files but it should be like the svg or a png right but instead it is showing the text in the sections, ecu, parameter pages. And in the horizontal grid it is showing in the right side but it should be left side after that name should be there.
+
+
+
+
+
+Now we need to build the web application which is based on the Read DTC, Clear DTC, GTS(Guided Trouble Shooting) with help of in-built AI, Freeze Frame Data, DTC Library(History, All, Active, Confirmed), View Detailed Report(PDF).
+
+
+Also if the ECU is active it should show the green colour dot in that ECU horizontal grid as mentioned, But currently even though the ECU is active it is not showing in that grid, it should also show red if the ECU is not active.
+
+We are having two main issues like one is the above one and the other is like when we click the diagnostics it should show the running of VIN read and Battery Voltage, after running these programs successfully their actual output in the page mentioned in the display page in the section\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_tests.json. And if the VIN read program fails it should open the pop up UI where we can enter the manual or scanned vin and this should show in that pages. And after opening the next page the auto\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_run program mentioned in that, that is ECU active check should run like how the other auto-run programs runned and it should show the result in different mannar like it should show the green dot in top right corner in that mentioned ECU horizontal grid and red dot if the ECU is not active this program details is mentioned in ecu\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_tests.json.
+
+Now we need to create the tool like PCAN View which is like the interface tool that captures all the communication signals from the vehicle to the system and system to the vehicle as well in any communication layers like USB, Wi-fi, Bluetooth. First we need to connect our interface to the VCI in these communication layers, after that we had the connect and disconnect button where we can set the bitrate, clock frequency, acceptance filter etc... Our interface should get the vehicle detailsfrom the RestAPI's
+
+Actually, we need to do some modifications, like in the section\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_tests.json, we need to add only two auto-run programs (VIN and Battery Voltage), and in the ecu\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_tests.json, we need to add one auto-run program(ECU active check). After clicking diagnostics, the section\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_tests.json auto\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_run program should run and show result in that page itself, if it fails then the pop up UI opens for Manual VIN entry after that this entered VIN should be displayed in the Specified Page, as mentioned in display pages. The same goes for battery\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_voltage here it has the lsl and usl limits with the colour results. When it comes to the ECU page, it should automatically run the auto\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_run program that is mentioned in the ecu\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_tests.json, here if the ECU is active it should show the green colour in the top right corner in that respective horizontal grid and same goes for if ECU is not active it should show in red colour.
+
+What happens is now it is marking the VIN as none, and it is passing, but it should not be 'None'; instead, it should be the actual output from the aut0 vin-read program or from the manual entry. And also, you can clearly see it is in the wrong order, which means first VIN Read and Battery Voltage, current page auto-run programs and then the ECU active check auto-run program for the next page. And it is keep on giving this as a output in the console,
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+And the auto-run program of the battery voltage stream is showing only in the test pages. But it should not show in there; instead it should show in the display pages mentioned in the table or in the section_tests.json. Kindly fix all the issues correctly.
+
+We need to add the GTS for the DTC. When the user selects the vehicle model, we have the diagnostics and the vehicle health report sections, and if we select the Diagnostic section, then the available ECU will be shown as per the selected vehicle model, and then the parameters will be shown in that section. If we select the DTC parameter, the test sequence page will be opened. Here, we need to include the filter(active, history, confirmed, all) for the DTC, Freeze Frame Data Snapshot, GTS(Guided Trouble Shooting), and View Report for the DTC trouble codes.
+
+
+Make sure that all these Website\\\\\\\\\\\\\\\_With\\\\\\\\\\\\\\\_DB.py, loader.py, runner.py, service.py work correctly and support each other. And also verify that new user sessions are created when we run the program again and again without any time gap.
+
+
+If I enter the VIN manually because the program failed, it does not show the manually entered VIN on that page. Also, when the auto-run program is passed, it also does not show anything (VIN, battery voltage) on those pages.
+
+l
+
+The VIN should also show in the section page, and also in other pages. The VIN is showing in two different places, like one is in the vehicle image grid and the other is in the ecu, parameter, and test sequence grid. So we only want in these sections, ecu, parameter, test sequence grids, not in the vehicle grid. And also in the test sequence page, there is a grid called live stream values, it should not be like that, it should also be like how we displayed VIN.
+
+Now, we also have another the auto-run program in the ECU page, right, but it is not even running. Can you check once? Actually, we have the Auto-run folder in the Vehicle Model folder itself, not inside the ECU folder, and we already have the other auto-run programs like VIN and Battery Voltage but these auto-run programs will run in the section page, we don't want the pop-up ui to be opened instead it should show dot with color in that respective ecu grid itself as mentioned.
+
+All the live logs captured in all the parameters should be saved automatically to the unique UUID means whatever logs captured should be saved according to this UUID name. This name should be unique, and it is visible in the log page with respect to the unique user session. We also add the information toggle which contains the uuid name of that session.
+
+We also need to include the other VCI's in the login page and the config table. Here, we have only for PCAN and SocketCAN, but we also need to include other VCI's like Kvaser, Vector and the virtual CAN's, which will send the CAN messages via Bluetooth, Wi-Fi, etc.
+
+In login.html, we need to give all the interfaces as a dropdown, like it is there already. Based on our VCI selection, it should automatically fetch these (interface, channel, bitrate, ip address) from the can_utils.py. And for the Bluetooth / Wi-fi can connection, we have already defined how it is connected and how it receives CAN signals in the can_utils.py.
+
+
+diagnostics/
+├── loader/
+│   ├── \\\\\\\_\\\\\\\_init\\\\\\\_\\\\\\\_.py
+│   ├── exceptions.py
+│   ├── paths.py
+│   ├── schema.py
+│   ├── json\\\\\\\_files.py
+│   ├── discovery.py
+│   ├── module\\\\\\\_loader.py
+│   ├── db\\\\\\\_sync.py
+│   ├── auto\\\\\\\_run.py
+│   └── compat.py
+│
+├── runner/
+│   ├── \\\\\\\_\\\\\\\_init\\\\\\\_\\\\\\\_.py
+│   ├── enums.py
+│   ├── exceptions.py
+│   ├── context.py
+│   ├── logs.py
+│   ├── limits.py
+│   ├── execute.py
+│   ├── task.py
+│   ├── batch.py
+│   └── auto\\\\\\\_run.py
+│
+└── service/
+\\\&nbsp;   ├── \\\\\\\_\\\\\\\_init\\\\\\\_\\\\\\\_.py
+\\\&nbsp;   ├── exceptions.py
+\\\&nbsp;   ├── permissions.py
+\\\&nbsp;   ├── validation.py
+\\\&nbsp;   ├── config.py
+\\\&nbsp;   ├── persistence.py
+\\\&nbsp;   ├── auto\\\\\\\_run.py
+\\\&nbsp;   ├── listing.py
+\\\&nbsp;   └── execution.py
+
+
+Read this loader.py fully and thoroughly, and also verify whether this program supports the above Website\\\\\\\_With\\\\\\\_DB.py and all the tables. And also check this for every vehicle model, there will be only one auto\\\\\\\_run folder in which all the auto\\\\\\\_run programs should be present, not in the section page or in the ecu page.
+
+Read this runner.py fully and thoroughly, and also verify whether this program supports the above Website\\\_With\\\_DB.py, loader.py and all the tables.
+
+
+Read this service.py fully and thoroughly, and also verify whether this program supports the above Website\\\_With\\\_DB.py, loader.py, runner.py and all the tables.
+
+
+When we close the browser, the session should end immediately, and when we open(run) it starts a new session. After closing the browser everything should be closed, it should not run anything. When we open(run) the application, the browser(program) should always start from the login page, not from the dashboard page of the previous session. It is mandatory to start from the login page. So, because of this, the auto-run program has session issues. Initially, what happens in the auto-run program is that when we close the browser and open it again, it does not open from the login page, so a new session id is not created, and the auto-run program runs from the old session ID itself, which is marked as completed in the status of auto\\\_run\\\_sessions and takes the VIN from the vin column where it should take the last vin but it should has some value it should not be none.
+
+
+Root Cause,
+Problem Chain:
+Browser closes → Session cookie NOT deleted (browser keeps it)
+&nbsp;               ↓
+User reopens → Flask finds existing session cookie
+&nbsp;               ↓
+Dashboard loads (not login page)
+&nbsp;               ↓
+Auto-run finds old session\_id in DB (status='completed')
+&nbsp;               ↓
+Takes VIN from completed session instead of running fresh
+&nbsp;               ↓
+New session\_id never created → stale data displayed
+
+Even after we close the browser and the running python application, it is keep on giving this in the console,
+
+INFO:website\_with\_db:\[2026-03-11 21:58:35]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:58:36]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:58:41]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:58:41]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:58:44]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:58:51]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:04]\[DEBUG] Cleanup: 2 tasks, 2 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:35]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:36]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:41]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:41]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:58:51]\[DEBUG] Cleanup: 4 tasks, 4 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:04]\[DEBUG] Cleanup: 3 tasks, 3 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:35]\[DEBUG] Cleanup: 3 tasks, 3 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:36]\[DEBUG] Cleanup: 0 tasks, 1 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:41]\[DEBUG] Cleanup: 2 tasks, 2 expired sessions
+INFO:website\_with\_db:\[2026-03-11 21:59:41]\[DEBUG] Cleanup: 1 tasks, 1 expired sessions
+
+Most likely cause: The browser tab is still open or JavaScript is still running heartbeat requests, which keeps updating last\_accessed, which keeps the row fresh enough that the 3 minutes filter catches it only sometimes — OR the heartbeat endpoint accidentally resets status. So we want reduce all the timings so that it will not take that much time and will close immediately.
+
+
+
+Problem:
+&nbsp; Cleanup finds 1 expired session EVERY cycle → same row
+&nbsp;
+Causes:
+&nbsp; 1. ended\_at was NULL → WHERE clause matches repeatedly
+&nbsp; 2. In-memory runner still shows status="running"
+&nbsp; 3. Log fires even for already-known expired sessions
+
+Fixes:
+&nbsp; Website\_With\_DB.py:
+&nbsp;   - Add AND ended\_at IS NULL to expiry UPDATE
+&nbsp;   - Track already-expired session\_ids to suppress repeat logs
+&nbsp;   - Call set\_session\_status\_in\_memory after expiring DB rows
+&nbsp;   - Only log when expired\_count > 0 for NEWLY expired sessions
+
+&nbsp; service.py:
+&nbsp;   - \_mark\_auto\_run\_session\_status always calls
+&nbsp;     set\_session\_status\_in\_memory to keep DB+memory in sync
+&nbsp;   - Use COALESCE(ended\_at, CURRENT\_TIMESTAMP) to never
+&nbsp;     overwrite an existing ended\_at
+
+&nbsp; Heartbeat endpoint:
+&nbsp;   - Add AND status IN ('running','started') guard
+&nbsp;   - Prevents refreshing last\_accessed on expired rows
+
+
+Actually we have one issue in this code, in the section page when we click the diagnostics it will run the auto-run program, if it is failed then it will open the pop up ui, where we can able to enter the manual vin or we can also able to scan the VIN. Here everything is working correctly, like when the auto-run program fails it opens the pop up ui with the manual vin here if we enter the vin it is getting saved in the database but in the ui it is taking us to the next page and not showing the vin entered. Instead it is opening the pop up ui again to enter the manual vin.
+
+We are having the major issue, like when we open the session, after login in that and click any vehicle model, it takes to diagnostics page and there it has the auto-run programs in two modes one is single and the other is stream. For single it is giving correctly and for stream it is running but the values are not displayed in that place like the other auto-run program which has the mode of single and when closing the session this streaming auto-run program also need to shutdown the can bus,  but it is not happening. And these auto-run programs should run in the separate thread, it should not disturb the main thread where we run all the other test sequence programs.  In simple words, when we run one streaming program the other streaming program is not running, so it gives the error like this,
+
+[2026-03-26 08:59:25.511][INFO] Task started: test_id=TVS_iQube_ST_BMS_LP_Photosensor_STREAM mode=stream
+[2026-03-26 08:59:25.511][INFO] Attempt 1/4 test=TVS_iQube_ST_BMS_LP_Photosensor_STREAM mode=stream generator=False
+[2026-03-26 08:59:25.517][INFO] Executing Read_Photosensor mode=stream
+[2026-03-26 08:59:25.525][INFO] [PROGRESS 5%] Opening CAN bus
+[2026-03-26 08:59:25.525][INFO] [PROGRESS 5%] Opening CAN bus
+[2026-03-26 08:59:25.694][ERROR] Exception:
+Traceback (most recent call last):
+  File "D:\Python\PostgreSQL_Nirix_Diagnostics_Web_Application\diagnostics\runner.py", line 744, in _execute_function
+    result["output"] = fn(*args, **call_kwargs)
+                       ~~^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\PostgreSQL_Nirix_Diagnostics_Web_Application\Test_Programs\TVS_iQube_ST\Diagnostics\BMS\LIVE_PARAMETER\Read_Photosensor.py", line 76, in Read_Photosensor
+    bus = open_can_bus(channel=can_interface, bitrate=int(bitrate))
+  File "D:\Python\PostgreSQL_Nirix_Diagnostics_Web_Application\diagnostics\can_utils.py", line 140, in open_can_bus
+    return interface.Bus(
+           ~~~~~~~~~~~~~^
+        channel=channel,
+        ^^^^^^^^^^^^^^^^
+        bustype="pcan",
+        ^^^^^^^^^^^^^^^
+        bitrate=bitrate,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\sri.sakthivel\AppData\Local\Programs\Python\Python313\Lib\site-packages\can\util.py", line 392, in wrapper
+    return f(*args, **kwargs)
+  File "C:\Users\sri.sakthivel\AppData\Local\Programs\Python\Python313\Lib\site-packages\can\interface.py", line 137, in Bus
+    bus = cls(channel, **kwargs)
+  File "C:\Users\sri.sakthivel\AppData\Local\Programs\Python\Python313\Lib\site-packages\can\interfaces\pcan\pcan.py", line 311, in __init__
+    raise PcanCanInitializationError(self._get_formatted_error(result))
+can.interfaces.pcan.pcan.PcanCanInitializationError: A PCAN Channel has not been initialised yet, or the initialisation process has failed
+[2026-03-26 08:59:25.694][ERROR] Exception: Traceback (most recent call last):
+  File "D:\Python\PostgreSQL_Nirix_Diagnostics_Web_Application\diagnostics\runner.py", line 744, in _execute_function
+    result["output"] = fn(*args, **call_kwargs)
+[2026-03-26 08:59:25.694][INFO] Task completed: passed=False duration=183ms status=ERROR
+
+Because, we will have the auto-run streaming program, so that our Test Sequence parameter programs which is also having the streaming and single mode is not running because of this before streaming, our auto-run program should be like when we are in that particular page like initially we have the two auto-run programs that are vin read(single) and battery_voltage(stream) these programs will run when we click the grid in the section page, so when we switch to other page the stream should stop and if we come back again the stream should run and the next page(ECU Page) has similar kind of auto-run program called ecu_active_check, but it is not even running, it is in the same folder like the other two auto-run programs, exactly like the battery_voltage this ecu_active_check program is the streaming one, but here it should show the dot with colour variation like green/red according to the respected ECU mentioned in the table, like the before one here also when we switch to the other page the stream should stop and if we come back again the stream should run. The next page is about the different parameters with the grid, and if we click the grid, each and every parameter has different kind of test pages with different test sequences. So for example when we run the streaming programs in the live parameter exactly like the other pages when we switch back to the parameter page the stream should stop and if we come back again run the streaming program it should run and also if we click the run all and if it has the streaming programs, all programs should run in a separate thread without disturbing the other streaming program, and when we switch back to the previous page all the streaming programs should stop and if we go back again to the same page and click the run all it should run without any errors.
+
+
+We also have another the auto-run program in the ECU page, right, but it is not even running. Can you check once? Actually, we have the Auto-run folder in the Vehicle Model folder itself, not inside the ECU folder, and we already have the other auto-run programs like VIN and Battery Voltage but these auto-run programs will run in the section page, we don't want the pop-up ui to be opened instead it should show dot with color in that respective ecu grid itself as mentioned.
+
+
+Actually, I have the Web application, but I need to convert into the mobile application. Is it possible to convert this and if yes, what are all the ways to convert it. In Web Application I have used HTML, Inline CSS, JS, for the frontend, and used Python Flask Fastapi for Backend and for Database for now I have used PostgreSQL but in a local server, so when we create as a mobile app we need to change from local to the server, also explain this in a neat way
