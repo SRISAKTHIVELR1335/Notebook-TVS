@@ -1,0 +1,651 @@
+Android App Development:
+
+Kivy/KivyMD - poor in GUI
+BeeWare - good in GUI
+React Native + Python - node.js
+Html + CSS + JS + Python
+Any others???
+
+
+
+Android Studio - Play Store - Create the Google Play Developer Account - Initial Pay $25 - Generate APK file by using the buildozer.spec - Upload the APK in the Play store with Title, Description, Screenshots, Website Link, Content Rating, Apply Rating, App Content, Privacy Policies, Categories,
+
+
+To publish in Play Store, which method is very much suitable for development.
+
+
+I want you explain, how to create the database here thoroughly. Like I have installed MySQL workbench in my system next from that what should i need to do? guide me...
+
+I want the detailed document for the above zip folder containing each and every folders like backend, windows-client, android-client, shared, tests, ops, docs. And Explain everything inside those folders not on the top level instead explain each and every folder inside those folders.
+
+
+
+I need to add the download page like this attached image, in which we need to add all the drivers link where the users can download. And Instead of opening in a http://127.0.0.1:8000 or local ip address, we need to open the web page in a domain like nirixx-diagnostics.com. When the user clicks the download page
+
+
+Here in the download page if i click the windows-client it should download the exe and for android it should download apk. But it is showing the message as Windows client coming soon and Android app coming soon. And also in the tests page it is showing the message as, Note: Tests are displayed here for awareness only. Actual test execution is performed through the Windows Diagnostic Client or Android App but here in the web it should check whether the Test_Programs folder is there or not if it is not there, it should automatically download and then we can also test it from the web.
+
+
+I need to change the concept of login and register page like here currently we are using the concept to enter the password to register and as well as for login. But we need to change that to enter the PIN(four digit) in both the register page as well as login page. We should also change this in MySQL database to accept the Pin.
+And we also need to modify the approval code logic, currently it is like when we register the new user, it is waiting to the approver to change the database is_approved column from 0 to 1, but instead we want to add the same method of sending the approval code to the approver's email id and we need to enter that approver code to register that new user and then it should automatically change it to 1 in is_approved column, refer the Raspberry-pi zip folder in that refer the login.html, register.html and also the approver code concept like for windows we are using pywin32 and for other os we need to use smtp method. The approver email-id is same "sri.sakthivel@tvsmotor.com".
+
+
+
+All fields are required, when i register the user with all the fields it gives. and also we need to change in the db too accept the user with mail id and pin. And for the approver id use exact same method used in Raspberry-pi zip in that refer the concept of apporver code mail sending use the same here
+
+
+We also need to change the user roles(admin, user, viewer), vehicles, tests(currently we have only developed for TVS iQube ST) I want you to refer the Raspberry-pi zip_folder in that i want you to refer the vehicle models, vehicle images and also in the login page we need to add the VCI utility selection.
+
+We also need to change the user roles (admin, user, viewer), vehicles, tests(currently we have only developed for TVS iQube ST) I want you to refer the Raspberry-pi zip_folder in that i want you to refer the vehicle models, vehicle images. Show all the respective changes related to the Web_app.py. And here We need to keep the Vehicle Images, Test_Programs common for now to use on website, windows-client, android-client.
+
+
+We need to change the dashboard.html to look like the dashboard.html in the zip folder but we want the dashboard, logs, downloads we need to remove the tests
+Will the clients able to run these test programs.
+
+We also need to change the user roles (admin, user, viewer), vehicles, tests(currently we have only developed for TVS iQube ST) I want you to refer the Raspberry-pi zip_folder in that i want you to refer the vehicle models, vehicle images. Show all the respective changes related to the Web_app.py. And here We need to keep the Vehicle Images, Test_Programs common for now to use on website, windows-client, android-client.
+
+
+Move to next feature: Audit Logs, Permissions, or Role-based Menus
+Begin connecting config changes to live CAN driver setup
+
+
+
+
+We also need to set the test table like the vehicles table. It should check the tests.json in the Test_Program/<Vehicle_Model_Name>/tests.json(we need to load this file in the DB).
+
+
+For admin role users, the dashboard page remains the same, but we can see the other changes there. Likewise same for tests, the logs page and the side menu have the config in them.
+
+
+Also, for the admin roles, the dashboard, tests, and logs pages are not opening.  Whenever the admin role logs in to our website they should see the dashboard page aligned with the user and admin roles and also the same for tests, logs page and for the side menu bar for the admin roles we can see the config there on top of theme selection, if we click that it will take them to the config page where the admins can change the values in the config table.
+
+
+In simple words, the dashboard, tests, log and download pages are common for both users and admin role members. But for the admin role, we have some extra benefits, like in the side menu, we need to add the Admin above the theme selection. Inside that, all the admin-related pages should be there, like user, vehicles, tests, logs, and config, etc. If the admin makes modifications in these pages, it will be reflected in the database as well as in the common pages(dashboard, tests, logs).
+
+
+
+Current Issues:
+
+1 - In the login page, if click the Forgot PIN it takes us to the page where we need to enter the email-id after entering if click send reset code it is giving the below error,
+
+127.0.0.1 - - [14/Dec/2025 21:54:02] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Dec/2025 21:54:03] "GET /vehicle_image/Nirix_Logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [14/Dec/2025 21:54:08] "GET /forgot-pin HTTP/1.1" 200 -
+[2025-12-14 21:54:12,415] ERROR in app: Exception on /forgot-pin [POST]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\Webste_With_DB.py", line 322, in forgot_pin
+    send_email(APPROVER_EMAIL or email, subject, body)
+    ^^^^^^^^^^
+NameError: name 'send_email' is not defined
+
+2 - In the Registration Page, after entering all the field if I click Request Approval, it give this error
+
+127.0.0.1 - - [14/Dec/2025 21:55:18] "GET /register HTTP/1.1" 200 -
+[2025-12-14 21:56:06,213] ERROR in app: Exception on /register [POST]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\Webste_With_DB.py", line 147, in register
+    if email_exists(email):
+       ^^^^^^^^^^^^
+NameError: name 'email_exists' is not defined
+
+3 - In the dashboard page, the vehicle images, category, VIN pattern, and description are showing, and if I click the tests and logs nav in the dashboard, it does not take me to that page.
+And also in the vehicle card grid, currently we need to click the Open Test Sequence to open their current vehicle model tests page, but we want it to be like If i click anywhere in that vehicle card grid it should take us to that respective vehicle model page. And in the category we currently has only three like MOTOR CYCLE, Scooter, 3-Wheeler but we also want the All Models.
+
+
+4 - For the Admin Users, in the side menu bar there are admin preferences like Admin Dashboard, Users, Vehicles, Tests, Logs, System Config, these pages shows the error, when we open the admin dashboard(it's admin.dashboard not admin.home, I have changed it) it gives this error,
+
+If I click Reset_Pin in the Administration console of User Management,
+
+127.0.0.1 - - [15/Dec/2025 08:13:06] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [15/Dec/2025 08:13:06] "GET /vehicle_image/Nirix_Name_Logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [15/Dec/2025 08:13:06] "GET /vehicle_image/TVS_Logo_White.png HTTP/1.1" 304 -
+127.0.0.1 - - [15/Dec/2025 08:15:00] "GET /admin/ HTTP/1.1" 200 -
+127.0.0.1 - - [15/Dec/2025 08:15:03] "GET /admin/users HTTP/1.1" 200 -
+[2025-12-15 08:15:08,585] ERROR in app: Exception on /admin/users/reset_pin/3 [POST]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\__init__.py", line 44, in wrapper
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\users.py", line 143, in admin_reset_pin
+    exists = query_one(
+             ^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\database.py", line 62, in query_one
+    result = session.execute(text(sql), params or {})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\engine\base.py", line 1413, in execute
+    distilled_parameters = _distill_params_20(parameters)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "lib/sqlalchemy/cyextension/util.pyx", line 26, in sqlalchemy.cyextension.util._distill_params_20
+sqlalchemy.exc.ArgumentError: List argument must consist only of dictionaries
+
+
+If I click the Disable in the Administration console of User Management,
+
+[2025-12-15 08:16:42,623] ERROR in app: Exception on /admin/users/disable/3 [POST]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\__init__.py", line 44, in wrapper
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\users.py", line 170, in admin_disable_user
+    execute("UPDATE users SET is_disabled=1 WHERE id=%s", (user_id,))
+  File "D:\Python\Raspberry-Pi\database.py", line 81, in execute
+    session.execute(text(sql), params or {})
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\engine\base.py", line 1413, in execute
+    distilled_parameters = _distill_params_20(parameters)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "lib/sqlalchemy/cyextension/util.pyx", line 26, in sqlalchemy.cyextension.util._distill_params_20
+sqlalchemy.exc.ArgumentError: List argument must consist only of dictionaries
+127.0.0.1 - - [15/Dec/2025 08:16:42] "POST /admin/users/disable/3 HTTP/1.1" 500 -
+
+
+If I click Delete in the Administration console of User Management,
+
+127.0.0.1 - - [15/Dec/2025 08:16:42] "GET /admin/users HTTP/1.1" 200 -
+[2025-12-15 08:18:02,986] ERROR in app: Exception on /admin/users/delete/3 [POST]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\__init__.py", line 44, in wrapper
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\users.py", line 189, in admin_delete_user
+    target = query_one("""
+             ^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\database.py", line 62, in query_one
+    result = session.execute(text(sql), params or {})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\engine\base.py", line 1413, in execute
+    distilled_parameters = _distill_params_20(parameters)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "lib/sqlalchemy/cyextension/util.pyx", line 26, in sqlalchemy.cyextension.util._distill_params_20
+sqlalchemy.exc.ArgumentError: List argument must consist only of dictionaries
+
+
+If I click Approve in the Administration console of User Management,
+
+[2025-12-15 08:19:05,129] ERROR in app: Exception on /admin/users/approve/4 [POST]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\__init__.py", line 44, in wrapper
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\users.py", line 53, in admin_approve_user
+    user = query_one(
+           ^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\database.py", line 62, in query_one
+    result = session.execute(text(sql), params or {})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\engine\base.py", line 1413, in execute
+    distilled_parameters = _distill_params_20(parameters)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "lib/sqlalchemy/cyextension/util.pyx", line 26, in sqlalchemy.cyextension.util._distill_params_20
+sqlalchemy.exc.ArgumentError: List argument must consist only of dictionaries
+127.0.0.1 - - [15/Dec/2025 08:19:05] "POST /admin/users/approve/4 HTTP/1.1" 500 -
+127.0.0.1 - - [15/Dec/2025 08:19:05] "GET /admin/users HTTP/1.1" 200 -
+
+
+If I click Vehicle Management in the Admin Dashboard, it opens in admin.admin_vehicles not in admin.admin_vehicles_route but here the add vehicle, edit, disable, and delete are not working.
+
+
+If I click the Test Management in the Admin Dashboard, it is not opening it give the error, also check all the Crud in this python file and the html file.
+[2025-12-15 15:27:35,359] ERROR in app: Exception on /admin/tests [GET]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\tests.py", line 37, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\tests.py", line 143, in admin_tests
+    rows = query_all(
+           ^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\database.py", line 72, in query_all
+    result = session.execute(text(sql), params or {})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\engine\base.py", line 1413, in execute
+    distilled_parameters = _distill_params_20(parameters)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "lib/sqlalchemy/cyextension/util.pyx", line 26, in sqlalchemy.cyextension.util._distill_params_20
+sqlalchemy.exc.ArgumentError: List argument must consist only of dictionaries
+
+If I click the Role Management in the Admin Dashboard, it is not opening when I try to open it give the error, and also check the crud operation in this python file and html file
+[2025-12-15 12:17:38,139] ERROR in app: Exception on /admin/roles [GET]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\roles.py", line 25, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\roles.py", line 56, in admin_roles
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\Python\Raspberry-Pi\templates\admins\roles.html", line 1, in top-level template code
+    {% extends "admins/base_admin.html" %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\templates\admins\base_admin.html", line 176, in top-level template code
+    {% block scripts %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\templates\admins\roles.html", line 180, in block 'scripts'
+    "{{ url_for('admin.admin_rename_role', role_id='__ID__') }}"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\werkzeug\routing\map.py", line 922, in build
+    rv = self._partial_build(endpoint, values, method, append_unknown)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\werkzeug\routing\map.py", line 814, in _partial_build
+    build_rv = rule.build(values, append_unknown)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\werkzeug\routing\rules.py", line 850, in build
+    return self._build_unknown(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<werkzeug routing>", line 1, in builder:'/admin/roles/rename/[int:role\\\_id'](builder:'/admin/roles/rename/int:role\\_id')
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\werkzeug\routing\converters.py", line 163, in to_url
+    value_str = str(self.num_convert(value))
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: '__ID__'
+
+If I click the System Configuration in the Admin Dashboard, it is not opening when I try to open it give the error, and also check the crud operation in this python file and html file
+127.0.0.1 - - [15/Dec/2025 12:17:38] "GET /admin/roles HTTP/1.1" 500 -
+[2025-12-15 12:19:45,019] ERROR in app: Exception on /admin/config [GET]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\__init__.py", line 44, in wrapper
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\config.py", line 57, in admin_config
+    "can_interface": _get_config("can_interface") or "pcan",
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\config.py", line 31, in _get_config
+    row = query_one(
+          ^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\database.py", line 62, in query_one
+    result = session.execute(text(sql), params or {})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\engine\base.py", line 1413, in execute
+    distilled_parameters = _distill_params_20(parameters)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "lib/sqlalchemy/cyextension/util.pyx", line 26, in sqlalchemy.cyextension.util._distill_params_20
+sqlalchemy.exc.ArgumentError: List argument must consist only of dictionaries
+
+
+If I click the Logs Management in the Admin Dashboard, it is not opening when I try to open it give the error, and also check the crud operation in this python file and html file
+[2025-12-15 12:21:01,453] ERROR in app: Exception on /admin/logs [GET]
+Traceback (most recent call last):
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\__init__.py", line 44, in wrapper
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\admin\logs.py", line 80, in admin_logs
+    logs = query_all(
+           ^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\database.py", line 72, in query_all
+    result = session.execute(text(sql), params or {})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\orm\session.py", line 2258, in _execute_internal
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\Python\Raspberry-Pi\nirix-env\Lib\site-packages\sqlalchemy\engine\base.py", line 1413, in execute
+    distilled_parameters = _distill_params_20(parameters)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "lib/sqlalchemy/cyextension/util.pyx", line 26, in sqlalchemy.cyextension.util._distill_params_20
+sqlalchemy.exc.ArgumentError: List argument must consist only of dictionaries
+127.0.0.1 - - [15/Dec/2025 12:21:01] "GET /admin/logs HTTP/1.1" 500 -
+
+
+5 - And in the Test Page for the selected Vehicle model, if I click Run it is showing the error of
+127.0.0.1 - - [15/Dec/2025 12:25:03] "POST /api/run_test HTTP/1.1" 404 -
+=== Running Battery Voltage ===
+ERROR: TEST_NOT_FOUND
+
+But the Actual tests are in Test_Programs/Vehicle_Model_Name(TVS_iQube_ST)/Battery_Voltage.py,Read_Odometer.py, Read_Photosensor.py, tests.json etc...
+
+
+
+
+Actually we are facing some major issues like in the common page of tests, we have the problem in which if i click the Run button in the tests page, it is giving the error of TEST_DISABLED. Here there is no values(rows) in the tests table. And here we need to add the separate column named Button, so that  we will get this button name from the tests table instead of Run.
+
+To load the tests inside the tests table we need to do modification in existing loader.py, this program first needs to check which vehicle model has the <vehicle_model_folder> (example TVS_iQube_ST), inside the Test_Programs folder. After that it will for the Test_Programs/<vehicle_model_folder>/tests.json, for every vehicle model folder there will be one tests.json inside that there will be all tests table related details like label, module_name, function_name, description, require's_mac, version, button_name. And other tests table columns are id(auto-generated), vehicle_id(it will be fetched from which vehicle _model_folder is present, example here TVS_iQube_ST vehicle model folder is present means it should fetch the vehicle_id from this vehicle model), is_active(1 - active, 0 - inactive), sort_order.
+
+
+In the Login Page, if I click the forgot PIN, it will take me to the forgot-pin page, where after entering email ID that already exists and clicking the SEND RESET CODE, it will send the reset code to the approver's email ID and after entering the correct reset code in the entry field, it shows the error "Invalid Reset Code". We can't able to change the New PIN.
+
+
+For the Admin Role, we have the Admin Dashboard Page, where we can view all aspects of User Management, Vehicle Management, Test Management, Role Management, System Configuration, and Log Management. Here, we have the ADD and EDIT buttons for User, Vehicle, Test, and Role Management. But here nothing is working, like if we click the ADD users, vehicles, roles, tests in their respective pages, there is no action happening in the backend, like nothing is added, and no API route triggering is happening (POST). Similarly, if I click the EDIT button in their respective pages, there is no action happening in the backend. And also, we have other buttons like Delete in these User, Vehicle, Role, Test Pages, once we click the button, it deletes the data permanently. It's good that action is happening in the backend, but we need to add the Undo button in all pages(users, vehicles, tests, roles, logs) near the ADD button at the top right corner, which appears after we click the delete button. So if we click this Undo button, it will revert the deleted changes previously. And also, we need to add the Refresh button at the bottom right corner of all the pages (User, Vehicle, Role, Test, Logs).
+
+
+Admins can select the vehicles and give access to those vehicles only to the particular users. Like we can say that for this user, these are the vehicles to be seen and applicable to do the tests.
+
+
+We need to completely remove the diagnostic folder part in the web_app.py and just need to call the functions like this
+
+
+In the Login Page, we are having serious trouble, where we will select the VCI's like PCAN or SocketCan - MCP2515 in this page. If I select the PCAN, then the can-interface should be "PCAN_USBBUS1", and if I select the Socketcan - MCP2515, then the can-interface should be "can0". This should be automatically updated in the config table, but if I select the PCAN or Socket - MCP2515, the CAN interface is not passed to the test sequence programs. Here, whatever VCI is selected, the CAN interface should be automatically updated in the config table for both user and admin roles; from there, we will get the CAN interface values for the test sequence programs. And the approver's email ID should also be there in the config table; from there only we will get the approver's email.
+
+
+Now we go for the tests.html and tests.py. Here we need to add the button Sync DB in which syncs the tests table data on that page. And also, we need to add the button Sync tests.json from the Test_Programs/< Vehicle_Model_Name >/tests.json, where there is information about test sequences for that vehicle model. Also, we need to check the sort, after sorting and clicked save order, the updated order should be displayed in the database like in the sort_column in tests table.
+
+
+Here in the tests.html(common page for all roles, in templates/*).In this, it is not working.
+
+Now we need to modify the tests.html (common page for all roles, located in templates/*). When running the test sequence for the vehicle model, this is not working; it is not retrieving the CAN interface from the config table and the button names from the tests table. I will also share the Battery_Voltage tests sequence program, which is not getting the correct interface. Instead of config.json, we need to use the config table to get the CAN interface value.
+
+We also need to add the VIN entry field, in which we need to enter the Vehicle Identification number, which has 17 characters that include (0-9),(A-F). Based on that VIN only we need to run the tests for that vehicle model.
+
+
+For the Logs Page, we want the same thing as the admin logs management. The Logs table should be like id, filename, model, vin, user_id and created_at exactly like this. This Logs page should be like we can open the log files by selecting the vehicle model, and it shows the logs inside that Test_Logs/<Vehicle_Model_Name>/log_filename.The vehicle model test sequence logs are saved with the file name Test_Logs/<Vehicle_Model_Name>/<VIN>_Timestamp.
+
+
+In the tests.html of the admins page, we need to add the Button Name column, but it is not there, and I was hoping you could explain the concept of Sync DB and the Sync tests.json file. Here, if I click Sync DB, whatever data in the tests table should come and if I click Sync tests.json, currently it adds additional data; it does not see whether the data is already present or not. It should first check all the rows, and then if all the row data is already available, it should do nothing, and if any of the row data is missing, it should add, and also it should check all the values in the row data; if any of them mismatch, it should update the data that is present in the tests.json. In simple, we have the row of vehicle name, label, module, function, Button Name, Mac, Version, and is_active. In this, all the other values match the tests.json, except that the Button Name means we need to update the Button Name according to the tests.json.
+
+
+Now we need to modify the System Config for the admin. In this, we need to add the VCI Selection, so the admin roles can able to change the VCI without logging out. And the CAN Interface should be 'PCAN_USBBUS1' for PCAN VCI Selection and 'can0' for 'Socketcan - MCP2515' VCI Selection. CAN Bitrate entry field should be editable, also the approver email should be editable too and if I set the Default theme to light, then all the common pages and the admin pages theme changes to light theme same goes for dark theme too.
+
+
+After clicking the delete button, it shows deleted in the status, but I want this to be hidden, after clicking the undo delete it will automatically be restored.
+
+Now I want you to make sure that the admin can control users, like admins can give the permissions to the users, like what are all the vehicle models and tests can be used by the particular user role members.
+
+Likewise, we need to add VCI_Mode_Selection to the user_preferences table for each role members.
+
+
+When I click the Forgot Pin, it will take to the Reset Pin Page where we will enter the email id of the registered user. After entering the email and clicking the send Reset Code to the approver's email id, it will take to the page where we need to enter the approver code to enter the code. When I enter the correct that is send to approver, it gives the "Invalid Reset Code".
+
+
+
+In the admin dashboard page we need to some visual charts, by analyzing the vehicle's active/inactive, total test available active/inactive for each vehicle model. We need to create these as a charts in that page.
+
+
+what happens is all the charts are in the filter dropdown, but i want the filters on the charts to be on the dropdown
+
+
+We need to modify the admins' logs.py and logs.html, so that if I delete the logfiles in the logs management, it will also delete the logfiles for what users the admin deleted. And we also need to change the VIN and vehicle model filter. Also, if I delete the log file, Undo will appear, near to that Undo, there will be another delete button which will permanently delete the deleted log files.
+
+
+Now, in the vehicle management, the filter status is not working. Inside that active, inactive, all status, but only in the all status, the vehicles are showing. The status filter is not working on active and inactive.
+
+Now in the users management, we need to add the permanently delete button with the undo after the delete button.
+
+
+in the system configuration page, we have the theme selection. I want to remove that, and for every role member, there should be a theme selection in the sidebar. In that sidebar, we need to make the selected theme the default for all pages (dashboard, tests, logs, downloads, etc.).
+
+ In the dashboard page, now we need to click the open test sequence button to open the test sequence page, but instead, I want to make the whole vehicle model grid clickable. If I click anywhere in that vehicle grid, we can open the test sequence page.
+
+
+the top navigation page bars Dashboard, Tests, Logs, Downloads is not looking good tests navigation only shows when the vehicle model is selected
+
+
+If some other client is logged in with the IP address of http://10.131.58.238:8000(this IP address is the server's IP address), and this is the (http://127.0.0.1:8000) localhost IP address. Our system should identify when any kind of role member(user, admin) logs in with which IP address and then it should show it live by storing the live trace in the database.
+
+
+In the system configuration we need to completely remove the Default Theme concept. And the save configuration button background should be in blue colour. And also we need to make sure that what ever the approver email id we entered in the Approver Email Entry box should receive the email of the login authentication. Actually in the web_app.py we are using this APPROVER_EMAIL = os.environ.get("APPROVER_EMAIL", "sri.sakthivel@tvsmotor.com"), here it is not getting the approver email from the config table, it is constant. But we need to get the approver email id from config table and then we need to send the approval  code
+
+here theme concept should be like this default theme is light means, it will check whether the current user theme is light if it is light then all the pages is in light theme colour, if it is not light then the current user theme should be displayed means used instead of default theme, same goes for dark theme too. with this we need to write down the full base.html correctly and fully.
+
+Roles.py and Roles.html. This is so simple, now in this we need to add this concept like I want you to make sure that the admin can control users, like admins can give the permissions to the users, like what are all the vehicle models and tests can be used by the particular user role members.
+
+now in this we need to add this concept like I want you to make sure that the admin can control users, like admins can give the permissions to the users, like what are all the vehicle models and tests can be used by the particular user role members.
+
+
+here we need to add more details about vehicle and tests access. Only super_admin users can able to give access to both admin and technician on what vehicles and tests to be used. And for admin we can able to give access to the technician.
+
+
+
+We need to add the checklist boxes when the super admins and admins try to create the new user. The checklist boxes should be like vehicle permission and test permissions for the newly created user.
+
+
+
+If I click the vehicle model in the dashboard page, it should check what are all the ECU's available and what is the Fault Codes and the Battery Voltage. After loading the ECU's in the test page if I click(select) any one of the ECU it should load the test sequences inside that ECU folder and then for the test sequences we have separate folders like live parameter, routine control, Diagnostic Trouble Codes etc..... If I click any one of the test sequence it should load all the test programs inside that test sequence folder and then we can able to take the tests in the vehicle for the selected test programs.
+
+
+
+Now currently, in the test program we have the entry field box where we can enter the mac address values. But now if i click any of the write tests it should ask mac/vin etc..... the value can be anything.
+
+
+only the test programs should have the buttons others test pages are clickable like the vehicle grid.
+
+
+
+If I log in as a super admin in the dashboard page, it is showing as a technician and also in the dashboard page, the vehicle models are not showing. The log page is giving an internal server error.
+
+In the navigation bar, if we select the test page and no vehicle models are selected, it should show the vehicle model selection filter, so that if I select any vehicle model, it should try to load the test sequence for that vehicle model.
+
+In the User Management, for the super admin, we can able to see the permissions button. If we click that, we can able to open the permissions Ui in that there are two pages first one is for vehicle permissions, and the second one is for permitted vehicles test permissions. If the admins try to create a new technician in the user management, since they have the permission to create technicians only, the admin can only give the permissions on whatever vehicle permissions they have, which differ from admin to admin. Also, additionally, in the navigation bar(dashboard, tests, logs, downloads), if we select the test page and no vehicle models are selected, it should show the vehicle model selection filter, so that if I select any vehicle model, it should try to load the test sequence for that vehicle model.
+
+In the vehicle management for the super admin, if we click the edit option for the selected vehicle, we need to see who are all the users using that selected vehicle model, in the same edit Ui that shows the permitted users for that selected vehicle model.
+
+In the tests management for the super admin, if we click the edit option for the selected tests, we need to see who are the users using the selected tests, in the same edit Ui that shows the permitted users for that selected tests with the vehicle model name just like the vehicle management. And also if i logged as a admin we only able to see the permitted test sequences for the vehicle model, but now it shows all non-permitted test sequences.
+
+
+
+
+
+write down the correct users.html fully without any logic mistakes means the existing users.html already has almost 350+ lines without the permission Ui but now our updated users.html should include the permissions Ui of Vehicles and Tests for the selected Users,  in the vehicle permission page tab, the all vehicle models listed the vehicle model selection  in a checkbox if we click that, that vehicle model is permitted for that user, these permitted vehicle models are stored in the user_vehicle_permissions table Similarly for the Test Permissions page tab for the permitted vehicle models we can able to see all the test sequences for that model and similar to the vehicle permissions there is a checkbox for each tests sequence we need to select them and the tests is permitted and stored in the user_tests_permissions table,after adding all these concepts in the users.html our updated code must be more than 650+ lines
+
+
+
+now we need to do the backend enforcement, in which we need to do,
+/admin/user/<id>/vehicle-permissions
+/admin/user/<id>/test-permissions
+
+Where we need to add this in our program.
+
+
+
+
+We need to fix the admin dashboard issues
+We need to fix the admin roles management issues
+
+
+Confirm whether you want:
+JSON-based permissions loading (recommended), OR
+Server-rendered permissions HTML (current approach)
+
+
+Now we need to change the entire test page and tests working concept. In the dashboard page if we select the vehicle model it will direct us to the test page or if no vehicle model is selected, if we click the tests navigation link in the dashboard page, it will show the vehicle model filter where we will select the vehicle model and for that model the test page will open. First it should look for the selected vehicle model -Test Folder is presented or not, if it is not presented in the tests page it will show that filtered or selected vehicle model image and it should show no test folders presented or ECU's are presented. if it is presented first it will get the vehicle model image with the Diagnostics and the Vehicle Health Report grid, if we click the diagnostics it will load what are the ECU's presented in that vehicle model diagnostics folder. For each ECU we should be having the horizontal grid in that we can able to see the ECU name, Protocol(CAN) if we click that ECU grid it will take us to the next page in that we can see what are all the parameters folders inside that ECU name, like we have some folders like Live Parameters, Routine Control, Diagnostic Trouble Codes, Write Data By Identifier, Input and Output Control, ECU Flashing these folders are also like in the vehicle grid, if we click that grid it will take us to the next page for example if we click the Live Parameters it will show the page where we can able to run tests, similarly for other parameter folders. And if we click the Vehicle Health Report, we can able to see the pages likes Heath Summary, IO Control, Physical Evaluation.
+
+Vehicle Model Folder:
+After selecting the vehicle model, it will try to load the vehicle model test folder first it will get the vehicle model image and the separate python code that runs the Fault Codes and Battery Voltage.
+
+Diagnostics:
+Select ECU:
+EMS(Engine Management System) - Folder - Live Parameters - Diagnostic Trouble Codes - Write Data Identifier - Routine Control - Input Output Control - ECU Flashing
+ABS(Anti-lock Braking System) - Folder - Live Parameters - Diagnostic Trouble Codes - Write Data Identifier
+BMS(Battery Management System) - Folder - Live Parameters - Diagnostic Trouble Codes - Write Data Identifier - Routine Control
+SCU(Suspension Control Unit) - Folder - Live Parameters - Diagnostic Trouble Codes - Write Data Identifier - Routine Control
+TCU(Telematics Control Unit) - Folder - Live Parameters - Diagnostic Trouble Codes - Write Data Identifier - Routine Control
+PEPS/KLR(Keyless Pairing) - Folder - Live Parameters - Diagnostic Trouble Codes- Write Data Identifier - Routine Control
+IPC(Cluster) - Folder - Live Parameters - Diagnostic Trouble Codes- Write Data Identifier - Routine Control
+VCU(Vehicle Control Unit) - Folder - Live Parameters - Diagnostic Trouble Codes - Write Data Identifier - Routine Control
+MCU(Motor Control Unit) - Folder - Live Parameters - Diagnostic Trouble Codes - Write Data Identifier - Routine Control
+EHL(Electronic Handle Lock) - Folder - Live Parameters - Diagnostic Trouble Codes - Write Data Identifier - Routine Control
+
+Vehicle Health Report:
+Dealer -
+Health Summary - Selected Live Parameters.
+IO Control -
+Physical Evaluation -
+
+We need to change the entire tests page common Ui logic and admin tests management logic and tests permission logic and we also need to change the tests table concept entirely.
+
+
+
+We also need to change the logs viewing, logs downloading, logs table and even the log page concept entirely.
+
+
+Currently, in the user management, we are facing several issues, such as after clicking the permissions button, it opens the Permissions UI page, where we can view the vehicles and tests permissions page. However, on the vehicle's permission page, when I select the vehicle model for that user and save it, the permitted vehicle models' test sequences should be displayed on the tests permission page. Then, we need to select the specific test sequences for that user on the tests' permissions page. So currently, it is not working like this, which means when I select the vehicle model for that user in the vehicle permissions page and save the vehicle, and if I open the tests permission page, it is not showing the permitted vehicle model for that user. And also, if I log in with the user, only the permitted vehicle models should show, but it is not showing anything in the dashboard; it is showing this instead (No vehicle models are available for your account or match the applied filters), even though we permitted the vehicle model for that user.
+
+
+
+Current Issues:
+
+In the user management, in the action edit button is not working. And in the add user, super admin has all the permission to add the other super admin and can able to edit the super admin themselves. And in the test management, the sync json to db is not working. In the roles management, edit, delete is not working for the super admin.
+
+In the user management, we had some issue like after the vehicle model permission we can able to select the test sequence permission. After selecting the test sequences and save the tests for that user. In the vehicle permission it is showing correctly means the already permitted vehicles are showing selected in the checkbox. But in the test permission even though we already permit the tests, it is not showing selected in the checkbox. And for admin roles in the user management, in the action column for super admins and admins it is showing Edit, Reset Pin, Delete, Disable/Enable but it is not touchable like a button. Only for super admins these action buttons touchable and for admins, only for technicians actions buttons are touchable.
+
+Refer the above tests.html code which has almost 3000+lines of code, we also want to produce a canonical tests.html v1.0 (clean, final)  1500+ minimum lines of codes which is correct and clean and the score should be 10/10 supports all the existing files.
+I want you to write down the objective, Components Used, Key Features and Enhancements, User Restrictions and Privileges.
+
+
+
+Develop an in‑house, web‑based diagnostic service tool (NIRIX) that enables technicians, developers, and validation engineers to, Perform vehicle-level and ECU-level diagnostics using a browser-based interface. Connect and communicate with ECUs through BLE/Wi‑Fi LAN and VCI hardware (Kvaser BlackBird V2).Eliminate dependency on external third‑party diagnostic tools by bringing all diagnostic logic, metadata, and test execution workflow into a single controlled ecosystem.
