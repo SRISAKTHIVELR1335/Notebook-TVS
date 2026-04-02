@@ -1,0 +1,61 @@
+3W_Diagnostics:
+pyinstaller --onefile --windowed --add-data "D:\Python\TVS NIRIX V1.4\3W_Diagnostics;3W_Diagnostics" --add-data "D:\Python\TVS NIRIX V1.4\station.ini;." --add-data "D:\Python\TVS NIRIX V1.4\scanner.ini;." --add-data "D:\Python\TVS NIRIX V1.4\log_cleanup.py;." --add-data "D:\Python\TVS NIRIX V1.4\api.ini;." --add-data "D:\Python\TVS NIRIX V1.4\sku_files;sku_files" --add-data "D:\Python\TVS NIRIX V1.4\SKU_File_Mapping.xlsx;." --add-data "D:\Python\TVS NIRIX V1.4\test_results;test_results" --hidden-import os --hidden-import sys --hidden-import configparser --hidden-import pandas --hidden-import socket --hidden-import PyQt5.QtGui --hidden-import importlib --hidden-import io --hidden-import json --hidden-import requests --hidden-import usb.core --hidden-import usb.util --hidden-import csv --hidden-import PyQt5.QtWidgets --hidden-import PyQt5.QtCore --hidden-import datetime --hidden-import time --hidden-import serial --hidden-import serial.tools.list_ports --hidden-import threading --hidden-import openpyxl --hidden-import can --hidden-import can.message --exclude-module tensorflow --exclude-module sklearn --exclude-module nltk --exclude-module torch --exclude-module torchvision --hidden-import can.interfaces.pcan --collect-submodules can TVS_NIRIX_V1.4.py
+
+
+Linux PC:
+pyinstaller --onefile --windowed \
+--add-data "/home/iot/Python/TVS_NIRIX_V1.3/TPMS:TPMS" \
+--add-data "/home/iot/Python/TVS_NIRIX_V1.3/station.ini:." \
+--add-data "/home/iot/Python/TVS_NIRIX_V1.3/scanner.ini:." \
+--add-data "/home/iot/Python/TVS_NIRIX_V1.3/api.ini:." \
+--add-data "/home/iot/Python/TVS_NIRIX_V1.3/log_cleanup.py:." \
+--hidden-import=test_library.02_WRITE_TPMS_FRONT \
+--hidden-import=test_library.03_WRITE_TPMS_REAR \
+--hidden-import=os \
+--hidden-import=sys \
+--hidden-import=configparser \
+--hidden-import=importlib \
+--hidden-import=io \
+--hidden-import=json \
+--hidden-import=requests \
+--hidden-import=csv \
+--hidden-import=PyQt5.QtWidgets \
+--hidden-import=PyQt5.QtCore \
+--hidden-import=datetime \
+--hidden-import=time \
+--hidden-import=serial \
+--hidden-import=serial.tools.list_ports \
+--hidden-import=threading \
+--hidden-import=can \
+--hidden-import=can.message \
+--hidden-import=can.interfaces.pcan \
+--collect-submodules=can \
+TVS_NIRIX_V1.3.py
+
+Raspberrypi:
+pyinstaller --onefile --windowed --add-data "station.ini:." --add-data "scanner.ini:." --add-data "log_cleanup.py:." --add-data "api.ini:." --add-data "test_results:test_results" --add-data "TPMS:TPMS" --hidden-import os --hidden-import sys --hidden-import configparser --hidden-import pandas --hidden-import socket --hidden-import PyQt5.QtGui --hidden-import importlib --hidden-import io --hidden-import json --hidden-import requests --hidden-import usb.core --hidden-import usb.util --hidden-import csv --hidden-import PyQt5.QtWidgets --hidden-import PyQt5.QtCore --hidden-import datetime --hidden-import time --hidden-import serial --hidden-import serial.tools.list_ports --hidden-import threading --hidden-import can --hidden-import can.message --hidden-import can.interfaces.socketcan --collect-submodules can "TVS_NIRIX_V1.3.py"
+
+
+VCI Utility:
+pyinstaller --onefile --windowed --add-data "D:\VCI utility bck1\PCANBasic.py;." --add-data "D:\VCI utility bck1\script2.py;." --add-data "D:\VCI utility bck1\Script3.py;." --add-data "D:\VCI utility bck1\script4.py;." --add-data "D:\VCI utility bck1\Pcan.png;." --add-data "D:\VCI utility bck1\TVS Logo.png;." --add-data "D:\VCI utility bck1\Kvaser.png;." --add-data "D:\VCI utility bck1\Vector.png;." --add-data "D:\VCI utility bck1\canlib32.dll;." --hidden-import sys --hidden-import os --hidden-import PyQt5.QtGui --hidden-import PyQt5.QtWidgets --hidden-import PyQt5.QtCore --hidden-import ctypes --hidden-import can.interfaces.pcan --hidden-import can.interfaces.vector --hidden-import can.interfaces.kvaser --collect-submodules can PGUI.py
+
+
+pyinstaller --onedir --windowed --name "NIRIX_SERVICE_TOOL_AND_DIAGNOSTIC" --icon=Nirix_Logo.ico --add-data "Vehicle_Images:Vehicle_Images" --add-data "Test_Programs:Test_Programs" --add-data "Test_Logs:Test_Logs" --add-data "config.json:." --add-data "station.ini:." --add-data "Log_Cleanup.py:." --add-data "Nirix_Logo.ico:." --hidden-import=PyQt5.QtCore --hidden-import=PyQt5.QtGui --hidden-import=PyQt5.QtWidgets --hidden-import=sys --hidden-import=time --hidden-import=os --hidden-import=importlib --hidden-import=contextlib --hidden-import=json --hidden-import=re --hidden-import=platform --hidden-import=logging --hidden-import=openpyxl --hidden-import=can --hidden-import=can.message --hidden-import=can.interfaces.socketcan --exclude-module tensorflow  --exclude-module sklearn --exclude-module nltk --exclude-module torch --exclude-module torchvision --collect-submodules can "Working_Raspberry_pi_.py"
+
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=NIRIX_DIAGNOSTIC_TOOL
+Comment=TVS Vehicle Diagnostic Tool for CAN-based Testing
+Exec=/home/raspberrypi-3/Downloads/Raspberry-pi/dist/NIRIX_DIAGNOSTIC_TOOL/NIRIX_DIAGNOSTIC_TOOL
+Icon=/home/raspberrypi-3/Downloads/Raspberry-pi/Nirix_Logo.png
+Terminal=false
+Categories=Utility;System;Electronics;
+StartupNotify=true
+StartupWMClass=NIRIX_DIAGNOSTIC_TOOL
+
+
+ 
+
+
